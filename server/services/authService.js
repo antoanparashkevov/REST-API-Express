@@ -16,14 +16,22 @@ async function register(email,password) {
         hashedPassword
     });
     
-    return {
-        _id: user._id,
-        email: user.email,
-        accessToken: createToken(user)
-    }
+    return createToken(user)
     
 }
-async function login(email,password) {}
+async function login(email,password) {
+    const user = await User.findOne({email}).collation({locale: 'en', strength: 2})
+    if(!user) {
+        throw new Error ('Incorrect email or password')
+    }
+    
+    const matchPassword = await bcrypt.compare(password, user.hashedPassword);
+    if(!matchPassword) {
+        throw new Error ('Incorrect email or password')
+    }
+    
+    return createToken(user)
+}
 async function logout(email,password) {}
 
 const createToken = function(user) {
@@ -32,7 +40,12 @@ const createToken = function(user) {
         email: user.email
     };
     
-   return jwt.sign(payload, SECRET_KEY)//returns the token;
+   return {
+       accessToken: jwt.sign(payload, SECRET_KEY),
+       _id: user._id,
+       email: user.email
+   }
+    
     
 }
 

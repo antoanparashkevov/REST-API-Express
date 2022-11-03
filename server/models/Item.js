@@ -37,6 +37,11 @@ const itemSchema = new Schema({
         type: Number,
         default: ''
     },
+    _ownerId: {
+        type: ObjectId,
+        ref: 'User',
+        required: true
+    }
 })
 
 const Item = model('Item', itemSchema)

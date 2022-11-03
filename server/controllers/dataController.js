@@ -1,12 +1,18 @@
-const {getAll, create, getById, update, deleteById} = require("../services/itemService");
+const {getAll, getByUserId, create, getById, update, deleteById} = require("../services/itemService");
 const parseError = require('../util/parser')
 const {hasUser} = require("../middlewares/guards");
 const router = require('express').Router();
 
 router.get('/catalog', async (req,res)=>{
+    let items = []
     console.log('Current user', req.user)
-    const items = await getAll();
-    res.json(items)
+    if(req.query.where) {
+        const userId = JSON.parse(req.query.where.split('=')[1])
+        items = await getByUserId(userId)
+    }else {
+        items = await getAll();
+    }
+        res.json(items)
 })
 
 router.post('/catalog', hasUser(),async (req,res)  => {

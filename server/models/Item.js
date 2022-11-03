@@ -30,11 +30,11 @@ const itemSchema = new Schema({
         min: [0.01, 'Price must be a positive number']
     },
     img: {
-        type: Number,
+        type: String,
         required: [true, 'Image url is required!'],
     },
     material: {
-        type: Number,
+        type: String,
         default: ''
     },
     _ownerId: {

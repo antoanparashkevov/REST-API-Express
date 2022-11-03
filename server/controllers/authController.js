@@ -1,4 +1,4 @@
-const {register, login} = require("../services/authService");
+const {register, login, logout} = require("../services/authService");
 const {body,validationResult} = require('express-validator')
 const router = require('express').Router()
 const parseError = require('../util/parser')
@@ -17,7 +17,7 @@ router.post('/login' , async(req,res)=> {
 router.get('/logout', async (req,res)=>{
     const token = req.token;
     console.log('Token from HEADER', token)
-    await login(token)
+    await logout(token)
     res.status(204).end()
 })
 

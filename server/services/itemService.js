@@ -23,7 +23,7 @@ async function update(id,item) {
     existing.img = item.img;
     existing.material = item.material;
     
-    await existing.save()
+    return await existing.save()
 }
 
 async function deleteById(id) {

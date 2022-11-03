@@ -1,5 +1,6 @@
 const {getAll, create} = require("../services/itemService");
 const parseError = require('../util/parser')
+const {hasUser} = require("../middlewares/guards");
 const router = require('express').Router();
 
 router.get('/catalog', async (req,res)=>{
@@ -8,7 +9,7 @@ router.get('/catalog', async (req,res)=>{
     res.json(items)
 })
 
-router.post('/catalog', async (req,res)  => {
+router.post('/catalog', hasUser(),async (req,res)  => {
   try{
       const data = Object.assign({_ownerId: req.user._id}, req.body)
      const item =  await create(data)

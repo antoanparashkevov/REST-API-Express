@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 const SECRET_KEY = 'MYSECRETKEY'
 async function register(email,password) {
-    const isExisting = await User.find({email}).collation({ locale:'en', strength:2 })
+    const isExisting = await User.findOne({email}).collation({ locale:'en', strength:2 })
     
     if( isExisting ) {
         throw new Error('Email is taken')

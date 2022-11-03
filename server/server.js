@@ -4,7 +4,7 @@ const cors = require('./middlewares/cors')
 const mongoose = require("mongoose");
 const port = 3030;
 const CONNECTION_STR = 'mongodb://localhost:27017/furniture'
-
+const authController = require('./controllers/authController')
 start();
 
 async function start() {
@@ -21,6 +21,8 @@ async function start() {
 
     app.use(express.json())
     app.use(cors())
+    
+    app.use('/users', authController)
 }
 
 

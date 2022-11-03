@@ -8,13 +8,17 @@ async function register(email,password) {
     if( isExisting ) {
         throw new Error('Email is taken')
     }
-    const hashedPassword = bcrypt.hash(password,10)
+    const hashedPassword = await bcrypt.hash(password,10)
     
     const user = await User.create({
         email,
         hashedPassword
     });
-    return createToken(user)//return the token when we await register function
+    return {
+        _id: user._id,
+        email: user.email,
+        accessToken: createToken(user)
+    }
     
 }
 async function login(email,password) {}
@@ -28,4 +32,10 @@ const createToken = function(user) {
     
    return jwt.sign(payload, SECRET_KEY)//returns the token;
     
+}
+
+module.exports = {
+    login,
+    logout,
+    register
 }

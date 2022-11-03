@@ -5,4 +5,8 @@ router.get('/catalog', (req,res)=>{
     res.json([])
 })
 
+router.post('/catalog', (req,res)  => {
+    console.log(req.body);
+    res.end();
+})
 module.exports = router;

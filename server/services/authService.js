@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 const SECRET_KEY = 'MYSECRETKEY'
 
+let tokenBlackList = new Set();
+
 async function register(email,password) {
     const isExisting = await User.findOne({email}).collation({ locale:'en', strength:2 })
     
@@ -32,7 +34,10 @@ async function login(email,password) {
     
     return createToken(user)
 }
-async function logout(email,password) {}
+async function logout(token) {
+    tokenBlackList.add(token);
+    
+}
 
 const createToken = function(user) {
     const payload = {

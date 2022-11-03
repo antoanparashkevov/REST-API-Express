@@ -10,6 +10,13 @@ router.post('/login' , async(req,res)=> {
 
 })
 
+router.get('/logout', async (req,res)=>{
+    const token = req.headers['x-authorization'];
+    console.log('Token from HEADER', token)
+    await login(token)
+    res.status(204).end()
+})
+
 async function authAction(req,res, action, httpStatus) {
     const formData = req.body;
     console.log(formData);

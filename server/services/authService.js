@@ -54,8 +54,17 @@ const createToken = function(user) {
     
 }
 
+function parseToken(token) {
+    if(tokenBlackList.has(token)) {
+        throw new Error('The token is blacklisted!')
+    }
+    
+    return jwt.verify(token,SECRET_KEY)//the payload
+}
+
 module.exports = {
     login,
     logout,
-    register
+    register,
+    parseToken
 }

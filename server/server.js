@@ -12,6 +12,8 @@ const dataController = require('./controllers/dataController')
 //Middlewares
 const cors = require('./middlewares/cors')
 const trimBody = require('./middlewares/trimBody')
+const session = require('./middlewares/session')
+
 start();
 
 async function start() {
@@ -27,6 +29,8 @@ async function start() {
     app.use(express.json())
     app.use(cors())
     app.use(trimBody())
+    app.use(session())
+    
     app.get('/', (req,res)=>{
        res.json({
            message: 'REST service operational!'

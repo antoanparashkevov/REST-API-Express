@@ -15,7 +15,7 @@ router.post('/login' , async(req,res)=> {
 })
 
 router.get('/logout', async (req,res)=>{
-    const token = req.headers['x-authorization'];
+    const token = req.token;
     console.log('Token from HEADER', token)
     await login(token)
     res.status(204).end()

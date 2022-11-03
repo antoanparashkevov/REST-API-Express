@@ -4,4 +4,5 @@ module.exports = () =>(req,res,next) =>{
             req.body[key] = req.body[key].trim();
         }
     }
+    next();
 }

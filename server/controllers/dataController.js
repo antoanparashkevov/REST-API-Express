@@ -1,4 +1,4 @@
-const {getAll, create, getById, update} = require("../services/itemService");
+const {getAll, create, getById, update, deleteById} = require("../services/itemService");
 const parseError = require('../util/parser')
 const {hasUser} = require("../middlewares/guards");
 const router = require('express').Router();
@@ -30,7 +30,6 @@ router.put('/catalog/:id', hasUser(), async (req,res) =>{
     const id = req.params.id
     const data = req.body
     const item = await getById(id);
-    console.log(item._ownerId)
     if(req.user._id !== item._ownerId.toString()) {
        return res.status(403).json({message: "You cannot modify this resource!"})
     }
@@ -43,4 +42,21 @@ router.put('/catalog/:id', hasUser(), async (req,res) =>{
         res.status(400).json({message})
     }
 })
+
+router.delete('/catalog/:id', hasUser(), async (req,res)=> {
+    const id = req.params.id
+    const item = await getById(id);
+    if(req.user._id !== item._ownerId.toString()) {
+        return res.status(403).json({message: "You cannot modify this resource!"})
+    }
+
+    try {
+        await deleteById(id)
+        res.status(204).end()
+    }catch (err) {
+        const message = parseError(err);
+        res.status(400).json({message})
+    }
+})
+
 module.exports = router;

@@ -1,6 +1,5 @@
 const express = require('express')
 
-const cors = require('./middlewares/cors')
 const mongoose = require("mongoose");
 
 const port = 3030;
@@ -9,6 +8,10 @@ const CONNECTION_STR = 'mongodb://localhost:27017/furniture'
 //Controllers...
 const authController = require('./controllers/authController')
 const dataController = require('./controllers/dataController')
+
+//Middlewares
+const cors = require('./middlewares/cors')
+const trimBody = require('./middlewares/trimBody')
 start();
 
 async function start() {
@@ -23,7 +26,7 @@ async function start() {
 
     app.use(express.json())
     app.use(cors())
-    
+    app.use(trimBody())
     app.get('/', (req,res)=>{
        res.json({
            message: 'REST service operational!'
